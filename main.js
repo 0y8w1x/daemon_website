@@ -58,7 +58,7 @@ function init() {
     controls.minDistance = 1;
     controls.maxDistance = 500;
 
-    controls.maxPolarAngle = Math.PI / 2;
+    //controls.maxPolarAngle = Math.PI / 2;
 
 
 
