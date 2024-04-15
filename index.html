@@ -10,16 +10,17 @@
       * {
         font-family: monospace;
       }
-
 			.label {
 				color: #FFF;
 				padding: 2px;
 				background: rgba( 0, 0, 0, .6 );
         cursor: pointer;
+        pointer-events: all;
+        text-decoration: none;
 			}
       .label:hover {
             background-color: rgba(0, 0, 0, 1);
-        }
+      }
 		</style>
 
     <script type="importmap">
@@ -50,18 +51,17 @@
 
       function init() {
         camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 0.1, 200 );
-				camera.position.set( 10, 5, 20 );
+				camera.position.set(2, 2, 5);
 
         scene = new THREE.Scene();
-        scene.background = new THREE.Color(0xdeadbeef);
+        scene.background = new THREE.Color(0xffffff);
 
         const dirLight = new THREE.DirectionalLight( 0xffffff, 3 );
 				dirLight.position.set( 0, 0, 1 );
 				scene.add( dirLight );
 
 				const axesHelper = new THREE.AxesHelper( 5 );
-				scene.add(axesHelper);
-
+				// scene.add(axesHelper);
 
         loader.load(
           './damaged-helmet/DamagedHelmet.gltf',
@@ -79,12 +79,15 @@
             text.className = "label";
             text.textContent = "LABEL";
             text.href = "http://google.com";
+            text.id = "joseph";
+            text.onclick = () => {console.log("rofl")};
 
             const label = new CSS2DObject(text);
-            label.position.set( 1, 0, 0 );
-            label.center.set(0, -3); // just try different values until it looks good
+            label.position.set(1, 0, 0);
+            label.center.set(0, 0); // just try different values until it looks good
 
             mesh.add(label);
+
           },
 
           // called while loading is progressing
@@ -97,16 +100,20 @@
           }
         );
 
+        const percentage_of_screen = 0.5;
+        const window_width = window.innerWidth * percentage_of_screen;
+        const window_height = window.innerHeight * percentage_of_screen;
+
         renderer = new THREE.WebGLRenderer();
 				renderer.setPixelRatio( window.devicePixelRatio );
-				renderer.setSize( window.innerWidth, window.innerHeight );
-				document.body.appendChild( renderer.domElement );
+				renderer.setSize( window_width, window_height );
+				renderer.domElement.style.position = "absolute";
+        document.getElementById("render_container").appendChild(renderer.domElement);
 
         labelRenderer = new CSS2DRenderer();
-				labelRenderer.setSize( window.innerWidth, window.innerHeight );
-				labelRenderer.domElement.style.position = 'absolute';
-				labelRenderer.domElement.style.top = '0px';
-				document.body.appendChild( labelRenderer.domElement );
+				labelRenderer.setSize( window_width, window_height );
+				labelRenderer.domElement.style.position = "absolute";
+        document.getElementById("render_container").appendChild(labelRenderer.domElement);
 
         const controls = new OrbitControls( camera, labelRenderer.domElement );
 				controls.minDistance = 2;
@@ -121,8 +128,8 @@
       function onWindowResize() {
         camera.aspect = window.innerWidth / window.innerHeight;
         camera.updateProjectionMatrix();
-        renderer.setSize( window.innerWidth, window.innerHeight );
-        labelRenderer.setSize( window.innerWidth, window.innerHeight );
+        renderer.setSize(wwindow_width, window_height);
+        labelRenderer.setSize(window_width, window_height);
       }
 
       function animate() {
@@ -133,8 +140,19 @@
       }
     </script>
 
-    <h1>Daemon</h1>
-    <p>Lorem ipsum dolor sit amet, qui minim labore adipisicing minim sint cillum sint consectetur cupidatat.</p>
+    <p>atm you can check the status of this project on my <a href="https://twitter.com/ve4xy8">x/twitter page</a>.
+      alternatively I have a channel on the StardustXR Discord.</p>
+    <h2>related projects</h2>
+    <p><a href="https://monado.dev/">Monado</a>/<a href="https://discord.gg/8RkJgRJ">Discord</a></p>
+    <p><a href="https://stardustxr.org/">StardustXR</a>/<a href="https://discord.gg/A9w7fKE">Discord</a></p>
+    <p><a href="https://stereokit.net/">StereoKit</a>/<a href="https://discord.gg/jtZpfS7nyK">Discord</a></p>
+    <p><a href="https://dofdev.org/">dofdev</a>/<a href="https://discord.gg/3mr56UvJ">Discord</a></p>
+    <p><a href="https://slimevr.dev/">SlimeVR</a>/<a href="https://discord.gg/SlimeVR">Discord</a></p>
+
+    <h2>want to contribute?</h2>
+    <p>checkout the bottom render of daemon and click on any part you are interested in.</p>
+
+    <div id="render_container" style="width: fit-content; height: fit-content;"></div>
 </body>
 
 </html>
