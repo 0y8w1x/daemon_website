@@ -11,7 +11,7 @@
         font-family: monospace;
       }
 			.label {
-				color: #FFF;
+				color: #ffffff;
 				padding: 2px;
 				background: rgba( 0, 0, 0, .6 );
         cursor: pointer;
@@ -79,19 +79,19 @@
             text.className = "label";
             text.textContent = "LABEL";
             text.href = "http://google.com";
-            text.onclick = () => {console.log("rofl")};
+            text.addEventListener("pointerdown", () => {location.href = "https://google.com"});
+            const label = new CSS2DObject(text);
+            label.position.set(1, 0, 0);
+            // label.center.set(0, 0);
 
             const text2 = document.createElement("a");
             text2.className = "label";
             text2.textContent = "LABEL2";
             text2.href = "http://youtube.com";
-            text2.onclick = () => {console.log("lol")};
-
-            const label = new CSS2DObject(text);
+            text2.addEventListener("pointerdown", () => {location.href = "http://youtube.com"});
             const label2 = new CSS2DObject(text2);
-            label.position.set(1, 0, 0);
             label2.position.set(0, 1, 0);
-            // label.center.set(0, 0);
+            // label2.center.set(0, 0);
 
             mesh.add(label);
             mesh.add(label2);
@@ -123,12 +123,15 @@
 				labelRenderer.domElement.style.position = "absolute";
         document.getElementById("render_container").appendChild(labelRenderer.domElement);
 
-        const controls = new OrbitControls( camera, labelRenderer.domElement );
+        controls = new OrbitControls( camera, labelRenderer.domElement );
 				controls.minDistance = 2;
-				controls.maxDistance = 20;
+				controls.maxDistance = 10;
         controls.enablePan = false;
         controls.enableDamping = true;
-        controls.dampingFactor = 0.5;
+        controls.dampingFactor = 0.2;
+        controls.enableRotate = true;
+        controls.autoRotate = true;
+        controls.autoRotateSpeed = 1;
 
         window.addEventListener( 'resize', onWindowResize );
       }
@@ -136,15 +139,16 @@
       function onWindowResize() {
         camera.aspect = window.innerWidth / window.innerHeight;
         camera.updateProjectionMatrix();
-        renderer.setSize(wwindow_width, window_height);
+        renderer.setSize(window_width, window_height);
         labelRenderer.setSize(window_width, window_height);
       }
 
       function animate() {
 
-        requestAnimationFrame( animate );
-        renderer.render( scene, camera );
-        labelRenderer.render( scene, camera );
+        requestAnimationFrame(animate);
+        renderer.render(scene, camera);
+        labelRenderer.render(scene, camera);
+        controls.update();
       }
     </script>
 
