@@ -10,22 +10,17 @@
       * {
         font-family: monospace;
       }
-      
+
 			.label {
 				color: #FFF;
-				font-family: sans-serif;
 				padding: 2px;
 				background: rgba( 0, 0, 0, .6 );
+        cursor: pointer;
 			}
+      .label:hover {
+            background-color: rgba(0, 0, 0, 1);
+        }
 		</style>
-
-
-    <!-- REPLACE  -->
-    <!-- REPLACE -->
-
-    <link href="styles.css" rel="stylesheet">
-
-
 
     <script type="importmap">
       {
@@ -50,43 +45,21 @@
       const loader = new GLTFLoader();
       let camera, controls, scene, renderer, labelRenderer, gui;
 
-      const layers = {
-        "Toggle Name": function() {
-          camera.layers.toggle(0);
-        },
-        "Toggle Mass": function() {
-          camera.layers.toggle(1);
-        },
-        "Enable All": function() {
-          camera.layers.enableAll();
-        },
-        "Disable All": function() {
-          camera.layers.disableAll();
-        }
-      }
-
-      const clock = new THREE.Clock();
-
       init();
       animate();
 
       function init() {
-        const EARTH_RADIUS = 1;
-
         camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 0.1, 200 );
 				camera.position.set( 10, 5, 20 );
-				camera.layers.enableAll();
 
         scene = new THREE.Scene();
         scene.background = new THREE.Color(0xdeadbeef);
 
         const dirLight = new THREE.DirectionalLight( 0xffffff, 3 );
 				dirLight.position.set( 0, 0, 1 );
-				dirLight.layers.enableAll();
 				scene.add( dirLight );
 
 				const axesHelper = new THREE.AxesHelper( 5 );
-				axesHelper.layers.enableAll();
 				scene.add(axesHelper);
 
 
@@ -101,20 +74,17 @@
             gltf.asset; // Object
 
             let mesh = gltf.scene.children[0];
-            mesh.layers.enableAll();
 
-            console.log(gltf)
-
-            const text = document.createElement("div");
+            const text = document.createElement("a");
             text.className = "label";
             text.textContent = "LABEL";
+            text.href = "http://google.com";
+
             const label = new CSS2DObject(text);
             label.position.set( 1, 0, 0 );
-            console.log(label.center);
             label.center.set(0, -3); // just try different values until it looks good
-            console.log(label.center);
+
             mesh.add(label);
-            label.layers.set(1);
           },
 
           // called while loading is progressing
@@ -139,12 +109,13 @@
 				document.body.appendChild( labelRenderer.domElement );
 
         const controls = new OrbitControls( camera, labelRenderer.domElement );
-				controls.minDistance = 5;
-				controls.maxDistance = 100;
+				controls.minDistance = 2;
+				controls.maxDistance = 20;
+        controls.enablePan = false;
+        controls.enableDamping = true;
+        controls.dampingFactor = 0.5;
 
         window.addEventListener( 'resize', onWindowResize );
-
-				initGui();
       }
 
       function onWindowResize() {
@@ -157,22 +128,9 @@
       function animate() {
 
         requestAnimationFrame( animate );
-        const elapsed = clock.getElapsedTime();
-        // moon.position.set( Math.sin( elapsed ) * 5, 0, Math.cos( elapsed ) * 5 );
         renderer.render( scene, camera );
         labelRenderer.render( scene, camera );
       }
-
-        function initGui() {
-          gui = new GUI();
-          gui.title( 'Camera Layers' );
-          gui.add( layers, 'Toggle Name' );
-          gui.add( layers, 'Toggle Mass' );
-          gui.add( layers, 'Enable All' );
-          gui.add( layers, 'Disable All' );
-          gui.open();
-        }
-
     </script>
 
     <h1>Daemon</h1>
