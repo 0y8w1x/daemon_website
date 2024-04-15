@@ -13,13 +13,13 @@
 			.label {
 				color: #ffffff;
 				padding: 2px;
-				background: rgba( 0, 0, 0, .6 );
+				background: rgba(0, 0, 0, 0.5);
         cursor: pointer;
         pointer-events: all;
         text-decoration: none;
 			}
       .label:hover {
-            background-color: rgba(0, 0, 0, 1);
+        background-color: rgba(0, 0, 0, 0.7);
       }
 		</style>
 
@@ -50,15 +50,22 @@
       animate();
 
       function init() {
-        camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 0.1, 200 );
+        camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerWidth, 0.1, 200 );
 				camera.position.set(1, 1, 3);
 
         scene = new THREE.Scene();
         scene.background = new THREE.Color(0xffffff);
 
-        const dirLight = new THREE.DirectionalLight( 0xffffff, 3 );
-				dirLight.position.set( 0, 0, 1 );
-				scene.add( dirLight );
+        const dirLight1 = new THREE.DirectionalLight(0xffffff, 3);
+        dirLight1.position.set(1, 1, 1);
+        scene.add(dirLight1);
+
+        const dirLight2 = new THREE.DirectionalLight(0xffffff, 3);
+        dirLight2.position.set(- 1, - 1, - 1);
+        scene.add(dirLight2);
+
+        const ambientLight = new THREE.AmbientLight(0xffffff);
+        scene.add(ambientLight);
 
 				const axesHelper = new THREE.AxesHelper( 5 );
 				// scene.add(axesHelper);
@@ -82,7 +89,7 @@
             text.addEventListener("pointerdown", () => {location.href = "https://google.com"});
             const label = new CSS2DObject(text);
             label.position.set(1, 0, 0);
-            // label.center.set(0, 0);
+            label.center.set(0, 0);
 
             const text2 = document.createElement("a");
             text2.className = "label";
@@ -91,7 +98,7 @@
             text2.addEventListener("pointerdown", () => {location.href = "http://youtube.com"});
             const label2 = new CSS2DObject(text2);
             label2.position.set(0, 1, 0);
-            // label2.center.set(0, 0);
+            label2.center.set(0, 0);
 
             mesh.add(label);
             mesh.add(label2);
@@ -108,19 +115,30 @@
           }
         );
 
-        const percentage_of_screen = 0.3;
-        const window_width = window.innerWidth * percentage_of_screen;
-        const window_height = window.innerHeight * percentage_of_screen;
+        const scaled_window_height = window.innerHeight * 0.5;
+        const scaled_window_width = window.innerWidth * 1.0;
+        let window_width, window_height;
+
+        // take scaled width as limiting size
+        if (window.innerWidth < scaled_window_height) {
+          window_width = scaled_window_width;
+          window_height = scaled_window_width;
+        // take scaled height as limiting size
+        } else {
+          window_width = scaled_window_height;
+          window_height = scaled_window_height;
+        }
 
         renderer = new THREE.WebGLRenderer();
 				renderer.setPixelRatio( window.devicePixelRatio );
-				renderer.setSize( window_width, window_height );
+				renderer.setSize(window_width, window_width);
 				renderer.domElement.style.position = "absolute";
         document.getElementById("render_container").appendChild(renderer.domElement);
 
         labelRenderer = new CSS2DRenderer();
-				labelRenderer.setSize( window_width, window_height );
+				labelRenderer.setSize(window_width, window_width);
 				labelRenderer.domElement.style.position = "absolute";
+        // labelRenderer.domElement.style.outline = "1px solid black";
         document.getElementById("render_container").appendChild(labelRenderer.domElement);
 
         controls = new OrbitControls( camera, labelRenderer.domElement );
@@ -132,15 +150,26 @@
         controls.enableRotate = true;
         controls.autoRotate = true;
         controls.autoRotateSpeed = 1;
+        controls.enableZoom = true;
 
         window.addEventListener( 'resize', onWindowResize );
       }
 
       function onWindowResize() {
-        camera.aspect = window.innerWidth / window.innerHeight;
+        let scaled_window_height = window.innerHeight * 0.5;
+        let scaled_window_width = window.innerWidth * 1.0;
+        camera.aspect = 1;
         camera.updateProjectionMatrix();
-        renderer.setSize(window_width, window_height);
-        labelRenderer.setSize(window_width, window_height);
+        // take scaled width as limiting size
+        if (window.innerWidth < scaled_window_height) {
+          renderer.setSize(scaled_window_width, scaled_window_width);
+          labelRenderer.setSize(scaled_window_width, scaled_window_width);
+        // take scaled height as limiting size
+        } else {
+          renderer.setSize(scaled_window_height, scaled_window_height);
+          labelRenderer.setSize(scaled_window_height, scaled_window_height);
+        }
+        
       }
 
       function animate() {
@@ -165,7 +194,7 @@ alternatively   I  have  a  channel  on  the  StardustXR  Discord.</pre>
     <pre>checkout the bottom render of daemon and click on any part you are
 interested in.</pre>
 
-    <div id="render_container" style="width: fit-content; height: fit-content;"></div>
+    <div id="render_container"></div>
 </body>
 
 </html>
