@@ -79,14 +79,22 @@
             text.className = "label";
             text.textContent = "LABEL";
             text.href = "http://google.com";
-            text.id = "joseph";
             text.onclick = () => {console.log("rofl")};
 
+            const text2 = document.createElement("a");
+            text2.className = "label";
+            text2.textContent = "LABEL2";
+            text2.href = "http://youtube.com";
+            text2.onclick = () => {console.log("lol")};
+
             const label = new CSS2DObject(text);
+            const label2 = new CSS2DObject(text2);
             label.position.set(1, 0, 0);
-            label.center.set(0, 0); // just try different values until it looks good
+            label2.position.set(0, 1, 0);
+            // label.center.set(0, 0);
 
             mesh.add(label);
+            mesh.add(label2);
 
           },
 
