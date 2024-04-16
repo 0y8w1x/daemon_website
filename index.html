@@ -10,6 +10,9 @@
       * {
         font-family: monospace;
       }
+      .container {
+        margin: -8px;
+      }
 			.label {
 				color: #ffffff;
 				padding: 2px;
@@ -24,9 +27,13 @@
       .block_text {
         text-align: justify;
       }
+
       @media only screen and (min-width: 500px) {
       /* For desktop: */
-      .block_text {width: 500px;}
+      .block_text {
+        width: 500px;
+      }
+
     }
 		</style>
 
@@ -54,14 +61,14 @@
       let camera, controls, scene, renderer, labelRenderer, gui;
 
       let window_height_scaler = 0.5;
-      let window_width_scaler = 0.9;
+      let window_width_scaler = 1;
 
       init();
       animate();
 
       function init() {
         camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerWidth, 0.1, 200 );
-				camera.position.set(1, 1, 3);
+				camera.position.set(1, 1, 3.5);
 
         scene = new THREE.Scene();
         scene.background = new THREE.Color(0xffffff);
@@ -208,7 +215,7 @@
       <p>checkout the bottom render of daemon and click on any part you are interested in.</p>
     </div>
 
-    <div id="render_container"></div>
+    <div class="container" id="render_container"></div>
 </body>
 
 </html>
