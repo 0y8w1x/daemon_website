@@ -103,7 +103,7 @@
             text.className = "label";
             text.textContent = "LABEL";
             text.href = "http://google.com";
-            text.addEventListener("mousedown", () => {location.href = "https://google.com"});
+            text.addEventListener("pointerdown", () => {location.href = "https://google.com"});
             const label = new CSS2DObject(text);
             label.position.set(1, 0, 0);
             label.center.set(0, 0);
@@ -112,7 +112,7 @@
             text2.className = "label";
             text2.textContent = "LABEL2";
             text2.href = "http://youtube.com";
-            text2.addEventListener("mousedown", () => {location.href = "http://youtube.com"});
+            text2.addEventListener("pointerdown", () => {location.href = "http://youtube.com"});
             const label2 = new CSS2DObject(text2);
             label2.position.set(0, 1, 0);
             label2.center.set(0, 0);
