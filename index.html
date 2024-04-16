@@ -21,6 +21,13 @@
       .label:hover {
         background-color: rgba(0, 0, 0, 0.7);
       }
+      .block_text {
+        text-align: justify;
+      }
+      @media only screen and (min-width: 500px) {
+      /* For desktop: */
+      .block_text {width: 500px;}
+    }
 		</style>
 
     <script type="importmap">
@@ -45,6 +52,9 @@
 
       const loader = new GLTFLoader();
       let camera, controls, scene, renderer, labelRenderer, gui;
+
+      let window_height_scaler = 0.5;
+      let window_width_scaler = 0.9;
 
       init();
       animate();
@@ -115,8 +125,8 @@
           }
         );
 
-        const scaled_window_height = window.innerHeight * 0.5;
-        const scaled_window_width = window.innerWidth * 1.0;
+        const scaled_window_height = window.innerHeight * window_height_scaler;
+        const scaled_window_width = window.innerWidth * window_width_scaler;
         let window_width, window_height;
 
         // take scaled width as limiting size
@@ -156,8 +166,8 @@
       }
 
       function onWindowResize() {
-        let scaled_window_height = window.innerHeight * 0.5;
-        let scaled_window_width = window.innerWidth * 1.0;
+        let scaled_window_height = window.innerHeight * window_height_scaler;
+        let scaled_window_width = window.innerWidth * window_width_scaler;
         camera.aspect = 1;
         camera.updateProjectionMatrix();
         // take scaled width as limiting size
@@ -181,8 +191,10 @@
       }
     </script>
 
-    <pre>atm you can check the status of this project on my <a href="https://twitter.com/ve4xy8">x/twitter page</a>.
-alternatively   I  have  a  channel  on  the  StardustXR  Discord.</pre>
+    <div class="block_text">
+      <p>atm you can check the status of this project on my <a href="https://twitter.com/ve4xy8">x/twitter page</a>. alternatively   I  have  a  channel  on  the  StardustXR  Discord.</p>
+    </div>
+
     <h2>related projects</h2>
     <pre><a href="https://monado.dev/">Monado</a>     -   <a href="https://discord.gg/8RkJgRJ">Discord</a></pre>
     <pre><a href="https://stardustxr.org/">StardustXR</a> -   <a href="https://discord.gg/A9w7fKE">Discord</a></pre>
@@ -191,8 +203,10 @@ alternatively   I  have  a  channel  on  the  StardustXR  Discord.</pre>
     <pre><a href="https://slimevr.dev/">SlimeVR</a>    -   <a href="https://discord.gg/SlimeVR">Discord</a></pre>
 
     <h2>want to contribute?</h2>
-    <pre>checkout the bottom render of daemon and click on any part you are
-interested in.</pre>
+
+    <div class="block_text">
+      <p>checkout the bottom render of daemon and click on any part you are interested in.</p>
+    </div>
 
     <div id="render_container"></div>
 </body>
