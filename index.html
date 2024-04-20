@@ -10,6 +10,9 @@
       * {
         font-family: monospace;
       }
+      body {
+        margin-top: 40px;
+      }
       .container {
         margin: -8px;
       }
@@ -61,78 +64,143 @@
 
       let camera, controls, scene, renderer, labelRenderer, gui;
 
-      let window_height_scaler = 0.5;
+      let window_height_scaler = 0.8;
       let window_width_scaler = 1;
 
       let global_offset_y = 0.05;
+
+      const layers = {
+        "Toggle 3D Printed Parts": function () {
+          camera.layers.toggle(1);
+        },
+        "Toggle Custom Electronics": function () {
+          camera.layers.toggle(2);
+        },
+        "Toggle Off The Shelf Electronics": function () {
+          camera.layers.toggle(3);
+        },
+        "Toggle Cables": function () {
+          camera.layers.toggle(4);
+        },
+        "Toggle Misc": function () {
+          camera.layers.toggle(5);
+        },
+        "Enable All": function () {
+          camera.layers.enableAll();
+        },
+      };
 
       init();
       animate();
 
       function init() {
-        camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerWidth, 0.1, 200 );
+        camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerWidth, 0.1, 200);
 				// camera.position.set(1, 1, 3.5);
-				camera.position.set(-0.2, 0.1, 0.25);
+				camera.position.set(-0.2, 0.14, 0.25);
+        camera.layers.enableAll();
 
         scene = new THREE.Scene();
         scene.background = new THREE.Color(0xffffff);
 
-        const dirLight1 = new THREE.DirectionalLight(0xffffff, 3);
-        dirLight1.position.set(1, 1, 1);
-        scene.add(dirLight1);
+        const pointLight = new THREE.PointLight(0xffffff, 2.5);
+        pointLight.layers.enableAll();
+        pointLight.position.set(1, 0, 0);
+        scene.add(pointLight);
 
-        const dirLight2 = new THREE.DirectionalLight(0xffffff, 3);
-        dirLight2.position.set(- 1, - 1, - 1);
-        scene.add(dirLight2);
+        const pointLight2 = new THREE.PointLight(0xffffff, 2.5);
+        pointLight2.layers.enableAll();
+        pointLight2.position.set(-1, 0, 0);
+        scene.add(pointLight2);
 
-        const ambientLight = new THREE.AmbientLight(0xffffff);
-        scene.add(ambientLight);
+        const pointLight3 = new THREE.PointLight(0xffffff, 2.5);
+        pointLight3.layers.enableAll();
+        pointLight3.position.set(0, 1, 0);
+        scene.add(pointLight3);
 
-				// const axesHelper = new THREE.AxesHelper( 5 );
+        const pointLight4 = new THREE.PointLight(0xffffff, 2.5);
+        pointLight4.layers.enableAll();
+        pointLight4.position.set(0, -1, 0);
+        scene.add(pointLight4);
+
+        const pointLight5 = new THREE.PointLight(0xffffff, 2.5);
+        pointLight5.layers.enableAll();
+        pointLight5.position.set(0, 0, 1);
+        scene.add(pointLight5);
+
+        const pointLight6 = new THREE.PointLight(0xffffff, 2.5);
+        pointLight6.layers.enableAll();
+        pointLight6.position.set(0, 0, -1);
+        scene.add(pointLight6);
+
+				// const axesHelper = new THREE.AxesHelper(5);
 				// scene.add(axesHelper);
-
-        // gltf_loader.load(
-        //   "gltf/daemon_optimized.gltf",
-        //   function(gltf) {
-        //     gltf.scene.scale.set(0.01, 0.01, 0.01);
-        //     scene.add(gltf.scene);
-
-        //     let mesh = gltf.scene.children[0];
-        //     const text = document.createElement("a");
-        //     text.className = "label";
-        //     text.textContent = "LABEL";
-        //     text.href = "http://google.com";
-        //     text.addEventListener("pointerdown", () => {location.href = "https://google.com"});
-        //     const label = new CSS2DObject(text);
-        //     label.position.set(10000, 0, 0);
-        //     label.center.set(0, 0);
-
-        //     const text2 = document.createElement("a");
-        //     text2.className = "label";
-        //     text2.textContent = "LABEL2";
-        //     text2.href = "http://youtube.com";
-        //     text2.addEventListener("pointerdown", () => {location.href = "http://youtube.com"});
-        //     const label2 = new CSS2DObject(text2);
-        //     label2.position.set(0, 1, 0);
-        //     label2.center.set(0, 0);
-
-        //     mesh.add(label);
-        //     mesh.add(label2);
-        //   });
 
         // // BACK
         gltf_loader.load(
-          "gltf/optimized/back/baseboard.gltf",
+          "gltf/optimized/back/carrier.gltf",
           function(gltf) {
+            gltf.scene.traverse(function(object) {
+              object.layers.set(2);
+            });
             // gltf.scene.scale.set(0.005, 0.005, 0.005);
             gltf.scene.position.set(-0.001, 0.0237+global_offset_y, -0.161);
             gltf.scene.rotation.set(-Math.PI/2, Math.PI, 0);
+            // gltf.scene.children[0].material.color.setHex(0x00ff00);
+            scene.add(gltf.scene);
+
+            let mesh = gltf.scene.children[0];
+            const text = document.createElement("a");
+            text.className = "label";
+            text.textContent = "Carrier Board";
+            text.href = "https://github.com/0y8w1x/daemon_carrier_board";
+            text.addEventListener("pointerdown", () => {location.href = "https://github.com/0y8w1x/daemon_carrier_board"});
+            const label = new CSS2DObject(text);
+            label.layers.set(2);
+            label.position.set(8000, 5000, 8000);
+            label.center.set(0, 0);
+            mesh.add(label);
+
+            const text2 = document.createElement("a");
+            text2.className = "label";
+            text2.textContent = "NVIDIA Jetson Orin NX";
+            text2.href = "https://www.nvidia.com/en-us/autonomous-machines/embedded-systems/jetson-orin/";
+            text2.addEventListener("pointerdown", () => {location.href = "https://www.nvidia.com/en-us/autonomous-machines/embedded-systems/jetson-orin/"});
+            const label2 = new CSS2DObject(text2);
+            label2.layers.set(3);
+            label2.position.set(8000, 5000, 6000);
+            label2.center.set(0, 0);
+            mesh.add(label2);
+        });
+        gltf_loader.load(
+          "gltf/optimized/back/nvidia.gltf",
+          function(gltf) {
+            gltf.scene.traverse(function(object) {
+              object.layers.set(3);
+            });
+            // gltf.scene.scale.set(0.005, 0.005, 0.005);
+            gltf.scene.position.set(-0.0322, 0.009+global_offset_y, -0.1695);
+            gltf.scene.rotation.set(-Math.PI/2, 0, 0);
+            // gltf.scene.children[0].material.color.setHex(0x00ff00);
+            scene.add(gltf.scene);
+        });
+        gltf_loader.load(
+          "gltf/optimized/back/cooler.gltf",
+          function(gltf) {
+            gltf.scene.traverse(function(object) {
+              object.layers.set(3);
+            });
+            // gltf.scene.scale.set(0.005, 0.005, 0.005);
+            gltf.scene.position.set(0.0955, 0.009+global_offset_y, -0.172);
+            gltf.scene.rotation.set(-Math.PI/2, 0, 0);
             // gltf.scene.children[0].material.color.setHex(0x00ff00);
             scene.add(gltf.scene);
         });
         gltf_loader.load(
           "gltf/optimized/back/case_bot.gltf",
           function(gltf) {
+            gltf.scene.traverse(function( object ) {
+              object.layers.set(1);
+            });
             // gltf.scene.scale.set(0.005, 0.005, 0.005);
             gltf.scene.position.set(0, 0+global_offset_y, -0.16);
             gltf.scene.rotation.set(-Math.PI/2, Math.PI, 0);
@@ -142,15 +210,33 @@
         gltf_loader.load(
           "gltf/optimized/back/case_top.gltf",
           function(gltf) {
+            gltf.scene.traverse(function( object ) {
+              object.layers.set(1);
+            });
             // gltf.scene.scale.set(0.005, 0.005, 0.005);
             gltf.scene.position.set(0, 0+global_offset_y, -0.16);
             gltf.scene.rotation.set(-Math.PI/2, Math.PI, 0);
             // gltf.scene.children[0].material.color.setHex(0x00ff00);
             scene.add(gltf.scene);
+
+            let mesh = gltf.scene.children[0];
+            const text = document.createElement("a");
+            text.className = "label";
+            text.textContent = "3D Printed Parts";
+            text.href = "https://github.com/0y8w1x/daemon_mechanical";
+            text.addEventListener("pointerdown", () => {location.href = "https://github.com/0y8w1x/daemon_mechanical"});
+            const label = new CSS2DObject(text);
+            label.layers.set(1);
+            label.position.set(8000, 0, 0);
+            label.center.set(0, 0);
+            mesh.add(label);
         });
         gltf_loader.load(
           "gltf/optimized/back/pd_case_bot.gltf",
           function(gltf) {
+            gltf.scene.traverse(function( object ) {
+              object.layers.set(1);
+            });
             // gltf.scene.scale.set(0.005, 0.005, 0.005);
             gltf.scene.position.set(-0.063, -0.13+global_offset_y, -0.134);
             gltf.scene.rotation.set(0, -Math.PI/2, Math.PI/2);
@@ -160,6 +246,9 @@
         gltf_loader.load(
           "gltf/optimized/back/pd_case_top.gltf",
           function(gltf) {
+            gltf.scene.traverse(function( object ) {
+              object.layers.set(1);
+            });
             // gltf.scene.scale.set(0.005, 0.005, 0.005);
             gltf.scene.position.set(-0.063, -0.13+global_offset_y, -0.134);
             gltf.scene.rotation.set(0, -Math.PI/2, Math.PI/2);
@@ -169,26 +258,48 @@
         gltf_loader.load(
           "gltf/optimized/back/steval_board.gltf",
           function(gltf) {
+            gltf.scene.traverse(function(object) {
+              object.layers.set(3);
+            });
             // gltf.scene.scale.set(0.005, 0.005, 0.005);
             gltf.scene.position.set(-0.063, -0.13+global_offset_y, -0.134);
             gltf.scene.rotation.set(0, -Math.PI/2, Math.PI/2);
             // gltf.scene.children[0].material.color.setHex(0x00ff00);
             scene.add(gltf.scene);
+
+            let mesh = gltf.scene.children[0];
+            const text = document.createElement("a");
+            text.className = "label";
+            text.textContent = "USB PD controller";
+            text.href = "https://www.st.com/en/evaluation-tools/steval-isc005v1.html";
+            text.addEventListener("pointerdown", () => {location.href = "https://www.st.com/en/evaluation-tools/steval-isc005v1.html"});
+            const label = new CSS2DObject(text);
+            label.layers.set(3);
+            label.position.set(10000, 5000, 5000);
+            label.center.set(0, 0);
+            mesh.add(label);
         });
 
         // FRONT
         gltf_loader.load(
-          "gltf/optimized/front/case.gltf",
+          "gltf/unoptimized/front/case.gltf",
           function(gltf) {
+            gltf.scene.traverse(function( object ) {
+              object.layers.set(1);
+            });
             // gltf.scene.scale.set(0.005, 0.005, 0.005);
             gltf.scene.position.set(0, 0+global_offset_y, 0);
             gltf.scene.rotation.set(-Math.PI/2, 0, 0);
-            // gltf.scene.children[0].material.color.setHex(0x00ff00);
+            // gltf.scene.children[0].material.color.setHex(0xffffff);
+            // console.log(gltf.scene);
             scene.add(gltf.scene);
         });
         gltf_loader.load(
           "gltf/optimized/front/clamps.gltf",
           function(gltf) {
+            gltf.scene.traverse(function( object ) {
+              object.layers.set(1);
+            });
             // gltf.scene.scale.set(0.005, 0.005, 0.005);
             gltf.scene.position.set(0, 0+global_offset_y, 0);
             gltf.scene.rotation.set(-Math.PI/2, 0, 0);
@@ -198,6 +309,9 @@
         gltf_loader.load(
           "gltf/optimized/front/display_holder.gltf",
           function(gltf) {
+            gltf.scene.traverse(function( object ) {
+              object.layers.set(1);
+            });
             // gltf.scene.scale.set(0.005, 0.005, 0.005);
             gltf.scene.position.set(0, 0+global_offset_y, 0);
             gltf.scene.rotation.set(-Math.PI/2, 0, 0);
@@ -207,15 +321,44 @@
         gltf_loader.load(
           "gltf/optimized/front/display_optics.gltf",
           function(gltf) {
+            gltf.scene.traverse(function(object) {
+              object.layers.set(3);
+            });
             // gltf.scene.scale.set(0.005, 0.005, 0.005);
             gltf.scene.position.set(-0.032, 0+global_offset_y, -0.0248);
             gltf.scene.rotation.set(0, 0, 0);
             // gltf.scene.children[0].material.color.setHex(0x00ff00);
             scene.add(gltf.scene);
+
+            let mesh = gltf.scene.children[0];
+            const text = document.createElement("a");
+            text.className = "label";
+            text.textContent = "Optics";
+            text.href = "https://www.seeya-tech.com/en/products/products2_11.html";
+            text.addEventListener("pointerdown", () => {location.href = "https://www.seeya-tech.com/en/products/products2_11.html"});
+            const label = new CSS2DObject(text);
+            label.layers.set(3);
+            label.position.set(4000, 5000, 0);
+            label.center.set(0, 0);
+            mesh.add(label);
+
+            const text2 = document.createElement("a");
+            text2.className = "label";
+            text2.textContent = "Display";
+            text2.href = "https://www.seeya-tech.com/en/html/products/3976.html";
+            text2.addEventListener("pointerdown", () => {location.href = "https://www.seeya-tech.com/en/html/products/3976.html"});
+            const label2 = new CSS2DObject(text2);
+            label2.layers.set(3);
+            label2.position.set(15000, 5000, 2000);
+            label2.center.set(0, 0);
+            mesh.add(label2);
         });
         gltf_loader.load(
           "gltf/optimized/front/face_cushion.gltf",
           function(gltf) {
+            gltf.scene.traverse(function( object ) {
+              object.layers.set(1);
+            });
             // gltf.scene.scale.set(0.005, 0.005, 0.005);
             gltf.scene.position.set(0, 0+global_offset_y, 0);
             gltf.scene.rotation.set(-Math.PI/2, 0, 0);
@@ -225,6 +368,9 @@
         gltf_loader.load(
           "gltf/optimized/front/face_cushion_holder.gltf",
           function(gltf) {
+            gltf.scene.traverse(function( object ) {
+              object.layers.set(1);
+            });
             // gltf.scene.scale.set(0.005, 0.005, 0.005);
             gltf.scene.position.set(0, 0+global_offset_y, 0);
             gltf.scene.rotation.set(-Math.PI/2, 0, 0);
@@ -234,6 +380,9 @@
         gltf_loader.load(
           "gltf/optimized/front/mainconstruct.gltf",
           function(gltf) {
+            gltf.scene.traverse(function( object ) {
+              object.layers.set(1);
+            });
             // gltf.scene.scale.set(0.005, 0.005, 0.005);
             gltf.scene.position.set(0, 0+global_offset_y, 0);
             gltf.scene.rotation.set(-Math.PI/2, 0, 0);
@@ -243,6 +392,9 @@
         gltf_loader.load(
           "gltf/optimized/front/rods.gltf",
           function(gltf) {
+            gltf.scene.traverse(function(object) {
+              object.layers.set(5);
+            });
             // gltf.scene.scale.set(0.005, 0.005, 0.005);
             gltf.scene.position.set(0, 0+global_offset_y, 0);
             gltf.scene.rotation.set(-Math.PI/2, 0, 0);
@@ -252,6 +404,9 @@
         gltf_loader.load(
           "gltf/optimized/front/screws.gltf",
           function(gltf) {
+            gltf.scene.traverse(function(object) {
+              object.layers.set(5);
+            });
             // gltf.scene.scale.set(0.005, 0.005, 0.005);
             gltf.scene.position.set(0, 0+global_offset_y, 0);
             gltf.scene.rotation.set(-Math.PI/2, 0, 0);
@@ -261,44 +416,107 @@
         gltf_loader.load(
           "gltf/optimized/front/sir170.gltf",
           function(gltf) {
+            gltf.scene.traverse(function(object) {
+              object.layers.set(3);
+            });
             // gltf.scene.scale.set(0.005, 0.005, 0.005);
             gltf.scene.position.set(0, 0+global_offset_y, 0);
             gltf.scene.rotation.set(-Math.PI/2, 0, 0);
-            // gltf.scene.children[0].material.color.setHex(0x00ff00);
+            gltf.scene.children[0].material.color.setHex(0x5a5a5a);
             scene.add(gltf.scene);
+
+            let mesh = gltf.scene.children[0];
+            const text = document.createElement("a");
+            text.className = "label";
+            text.textContent = "Hand Tracker - SIR170";
+            text.href = "https://www.ultraleap.com/product/stereo-ir-170/";
+            text.addEventListener("pointerdown", () => {location.href = "https://www.ultraleap.com/product/stereo-ir-170/"});
+            const label = new CSS2DObject(text);
+            label.layers.set(3);
+            label.position.set(5000, 0, 1000);
+            label.center.set(0, 0);
+            mesh.add(label);
         });
         gltf_loader.load(
           "gltf/optimized/front/usb2_addon.gltf",
           function(gltf) {
+            gltf.scene.traverse(function(object) {
+              object.layers.set(2);
+            });
             // gltf.scene.scale.set(0.005, 0.005, 0.005);
             gltf.scene.position.set(-0.068, 0.029+global_offset_y, 0.057);
             gltf.scene.rotation.set(0, Math.PI/2, 0);
             // gltf.scene.children[0].material.color.setHex(0x00ff00);
             scene.add(gltf.scene);
+
+            let mesh = gltf.scene.children[0];
+            const text = document.createElement("a");
+            text.className = "label";
+            text.textContent = "USB2.0 Hub";
+            text.href = "https://github.com/0y8w1x/daemon_usb2_hub";
+            text.addEventListener("pointerdown", () => {location.href = "https://github.com/0y8w1x/daemon_usb2_hub"});
+            const label = new CSS2DObject(text);
+            label.layers.set(2);
+            label.position.set(4000, 8000, 6000);
+            label.center.set(0, 0);
+            mesh.add(label);
         });
         gltf_loader.load(
           "gltf/optimized/front/usb2_injector.gltf",
           function(gltf) {
+            gltf.scene.traverse(function(object) {
+              object.layers.set(2);
+            });
             // gltf.scene.scale.set(0.005, 0.005, 0.005);
             gltf.scene.position.set(0.07, -0.012+global_offset_y, 0.0069);
             gltf.scene.rotation.set(-Math.PI/2, -Math.PI/2, 0);
             // gltf.scene.children[0].material.color.setHex(0x00ff00);
             scene.add(gltf.scene);
+
+            let mesh = gltf.scene.children[0];
+            const text = document.createElement("a");
+            text.className = "label";
+            text.textContent = "USB2.0 injector";
+            text.href = "https://github.com/0y8w1x/daemon_usb2_injector";
+            text.addEventListener("pointerdown", () => {location.href = "https://github.com/0y8w1x/daemon_usb2_injector"});
+            const label = new CSS2DObject(text);
+            label.layers.set(2);
+            label.position.set(10000, 2000, 10000);
+            label.center.set(0, 0);
+            mesh.add(label);
         });
         gltf_loader.load(
           "gltf/optimized/front/xr50.gltf",
           function(gltf) {
+            gltf.scene.traverse(function(object) {
+              object.layers.set(3);
+            });
             // gltf.scene.scale.set(0.005, 0.005, 0.005);
             gltf.scene.position.set(0, 0+global_offset_y, 0);
             gltf.scene.rotation.set(-Math.PI/2, 0, 0);
-            // gltf.scene.children[0].material.color.setHex(0x00ff00);
+            gltf.scene.children[0].material.color.setHex(0x5a5a5a);
             scene.add(gltf.scene);
+
+            let mesh = gltf.scene.children[0];
+            const text = document.createElement("a");
+            text.className = "label";
+            text.textContent = "6DoF Tracker - XR50";
+            text.href = "https://www.xvisiotech.com/product/seersense-xr50/";
+            text.addEventListener("pointerdown", () => {location.href = "https://www.xvisiotech.com/product/seersense-xr50/"});
+            const label = new CSS2DObject(text);
+            label.layers.set(3);
+            label.position.set(5000, 0, 2000);
+            label.center.set(0, 0);
+            mesh.add(label);
         });
 
         // MISC
         gltf_loader.load(
           "gltf/optimized/misc/headband.gltf",
           function(gltf) {
+            gltf.scene.traverse(function(object) {
+              object.layers.set(5);
+            });
             // gltf.scene.scale.set(0.005, 0.005, 0.005);
             gltf.scene.position.set(0, 0+global_offset_y, 0);
             gltf.scene.rotation.set(-Math.PI/2, 0, 0);
@@ -308,15 +526,33 @@
         gltf_loader.load(
           "gltf/optimized/misc/powerbank.gltf",
           function(gltf) {
+            gltf.scene.traverse(function(object) {
+              object.layers.set(3);
+            });
             // gltf.scene.scale.set(0.005, 0.005, 0.005);
             gltf.scene.position.set(0, 0+global_offset_y, 0);
             gltf.scene.rotation.set(-Math.PI/2, 0, 0);
-            // gltf.scene.children[0].material.color.setHex(0x00ff00);
+            gltf.scene.children[0].material.color.setHex(0x5a5a5a);
             scene.add(gltf.scene);
+
+            let mesh = gltf.scene.children[0];
+            const text = document.createElement("a");
+            text.className = "label";
+            text.textContent = "Powerbank";
+            text.href = "https://www.anker.com/eu-de/products/a1289";
+            text.addEventListener("pointerdown", () => {location.href = "https://www.anker.com/eu-de/products/a1289"});
+            const label = new CSS2DObject(text);
+            label.layers.set(3);
+            label.position.set(10000, 5000, 5000);
+            label.center.set(0, 0);
+            mesh.add(label);
         });
         gltf_loader.load(
           "gltf/optimized/misc/powercable.gltf",
           function(gltf) {
+            gltf.scene.traverse(function(object) {
+              object.layers.set(4);
+            });
             // gltf.scene.scale.set(0.005, 0.005, 0.005);
             gltf.scene.position.set(0, 0+global_offset_y, 0);
             gltf.scene.rotation.set(-Math.PI/2, 0, 0);
@@ -326,11 +562,26 @@
         gltf_loader.load(
           "gltf/optimized/misc/typec_cable.gltf",
           function(gltf) {
+            gltf.scene.traverse(function(object) {
+              object.layers.set(4);
+            });
             // gltf.scene.scale.set(0.005, 0.005, 0.005);
             gltf.scene.position.set(0, 0+global_offset_y, 0);
             gltf.scene.rotation.set(-Math.PI/2, 0, 0);
             // gltf.scene.children[0].material.color.setHex(0x00ff00);
             scene.add(gltf.scene);
+
+            let mesh = gltf.scene.children[0];
+            const text = document.createElement("a");
+            text.className = "label";
+            text.textContent = "DisplayPort+USB to Type-C";
+            text.href = "https://www.amazon.com/dp/B0BNX7MS6N?ref=ppx_pop_mob_ap_share";
+            text.addEventListener("pointerdown", () => {location.href = "https://www.amazon.com/dp/B0BNX7MS6N?ref=ppx_pop_mob_ap_share"});
+            const label = new CSS2DObject(text);
+            label.layers.set(4);
+            label.position.set(12000, 5000, 5000);
+            label.center.set(0, 0);
+            mesh.add(label);
         });
 
         const scaled_window_height = window.innerHeight * window_height_scaler;
@@ -348,7 +599,7 @@
         }
 
         renderer = new THREE.WebGLRenderer();
-				renderer.setPixelRatio( window.devicePixelRatio );
+				renderer.setPixelRatio(window.devicePixelRatio);
 				renderer.setSize(window_width, window_width);
 				renderer.domElement.style.position = "absolute";
         document.getElementById("render_container").appendChild(renderer.domElement);
@@ -359,7 +610,7 @@
         // labelRenderer.domElement.style.outline = "1px solid black";
         document.getElementById("render_container").appendChild(labelRenderer.domElement);
 
-        controls = new OrbitControls( camera, labelRenderer.domElement );
+        controls = new OrbitControls(camera, labelRenderer.domElement);
 				controls.minDistance = 0.1;
 				controls.maxDistance = 1;
         controls.enablePan = true;
@@ -370,7 +621,9 @@
         controls.autoRotateSpeed = 1;
         controls.enableZoom = true;
 
-        window.addEventListener( 'resize', onWindowResize );
+        window.addEventListener("resize", onWindowResize);
+
+        initGui();
       }
 
       function onWindowResize() {
@@ -391,16 +644,29 @@
       }
 
       function animate() {
-
         requestAnimationFrame(animate);
         renderer.render(scene, camera);
         labelRenderer.render(scene, camera);
         controls.update();
       }
+
+      function initGui() {
+
+        gui = new GUI();
+        gui.title("Layers");
+        gui.add(layers,"Toggle 3D Printed Parts");
+        gui.add(layers,"Toggle Custom Electronics");
+        gui.add(layers,"Toggle Off The Shelf Electronics");
+        gui.add(layers,"Toggle Cables");
+        gui.add(layers,"Toggle Misc");
+        gui.add(layers,"Enable All");
+        gui.close();
+        // gui.open();
+      }
     </script>
 
     <div class="block_text">
-      <p>atm you can check the status of this project on my <a href="https://twitter.com/ve4xy8">x/twitter</a> page. alternatively   I  have  a  channel  on  the  StardustXR  Discord.</p>
+      <p>atm you can check the status of this project on my <a href="https://twitter.com/ve4xy8">x/twitter</a> page. alternatively you can come and chat on the StardustXR Discord, where I have a channel.</p>
     </div>
 
     <h2>related projects</h2>
@@ -414,6 +680,7 @@
 
     <div class="block_text">
       <p>checkout the bottom render of daemon and click on any part you are interested in.</p>
+      <p>I'm also working on a small SlimeVR full body tracker (<a href="https://github.com/0y8w1x/daemon_full_body_tracker">Github</a>).</p>
     </div>
 
     <div class="container" id="render_container"></div>
