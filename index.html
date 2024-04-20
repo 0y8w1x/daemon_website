@@ -32,10 +32,10 @@
         text-align: justify;
       }
 
-      @media only screen and (min-width: 500px) {
+      @media only screen and (min-width: 600px) {
       /* For desktop: */
       .block_text {
-        width: 500px;
+        width: 600px;
       }
 
     }
@@ -681,8 +681,17 @@
     <h2>want to contribute?</h2>
 
     <div class="block_text">
-      <p>checkout the bottom render of daemon and click on any part you are interested in.</p>
-      <p>I'm also working on a small SlimeVR full body tracker (<a href="https://github.com/0y8w1x/daemon_full_body_tracker">Github</a>).</p>
+      <p>
+        checkout the bottom render of daemon and click on any part you are interested in. there are atm 3 custom designed boards.
+        that is the <a href="https://github.com/0y8w1x/daemon_carrier_board">carrier</a>, the <a href="https://github.com/0y8w1x/daemon_usb2_hub">USB2.0 Hub</a>,
+        and the <a href="https://github.com/0y8w1x/daemon_usb2_injector">USB2.0 injector</a> (injects USB2 lanes into a type-c connection via a FFC cable).
+      </p>
+      <p>
+        the next goals on my roadmap are to <br>
+        1. integrate the USB PD (takes input from powerbank and outputs power to the carrier) onto the carrier board itself, and <br>
+        2. design my own display driver board with the USB2.0 Hub and USB2.0 injector all on one PCB.
+      </p>
+      <p>I'm also working on a small SlimeVR <a href="https://github.com/0y8w1x/daemon_full_body_tracker">FBT</a>.</p>
     </div>
 
     <div class="container" id="render_container"></div>
