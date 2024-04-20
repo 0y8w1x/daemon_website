@@ -31,14 +31,16 @@
       .block_text {
         text-align: justify;
       }
-
       @media only screen and (min-width: 600px) {
-      /* For desktop: */
-      .block_text {
-        width: 600px;
+        /* For desktop: */
+        .block_text {
+          width: 600px;
+        }
       }
-
-    }
+      .gui_element {
+        position: absolute;
+        z-index: 100;
+      }
 		</style>
 
     <script type="importmap">
@@ -71,22 +73,22 @@
       let global_offset_y = 0.05;
 
       const layers = {
-        "Toggle 3D Printed Parts": function () {
+        "3D Printed Parts": function () {
           camera.layers.toggle(1);
         },
-        "Toggle Custom Electronics": function () {
+        "Custom Electronics": function () {
           camera.layers.toggle(2);
         },
-        "Toggle Off The Shelf Electronics": function () {
+        "Other Modules": function () {
           camera.layers.toggle(3);
         },
-        "Toggle Cables": function () {
+        "Cables": function () {
           camera.layers.toggle(4);
         },
-        "Toggle Misc": function () {
+        "Misc": function () {
           camera.layers.toggle(5);
         },
-        "Enable All": function () {
+        "Show All": function () {
           camera.layers.enableAll();
         },
       };
@@ -653,14 +655,15 @@
 
       function initGui() {
 
-        gui = new GUI();
+        gui = new GUI({ container: document.getElementById("render_container") });
+        gui.domElement.classList.add("gui_element");
         gui.title("Layers");
-        gui.add(layers,"Toggle 3D Printed Parts");
-        gui.add(layers,"Toggle Custom Electronics");
-        gui.add(layers,"Toggle Off The Shelf Electronics");
-        gui.add(layers,"Toggle Cables");
-        gui.add(layers,"Toggle Misc");
-        gui.add(layers,"Enable All");
+        gui.add(layers,"3D Printed Parts");
+        gui.add(layers,"Custom Electronics");
+        gui.add(layers,"Other Modules");
+        gui.add(layers,"Cables");
+        gui.add(layers,"Misc");
+        gui.add(layers,"Show All");
         gui.close();
         // gui.open();
       }
