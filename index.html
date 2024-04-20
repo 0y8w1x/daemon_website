@@ -64,13 +64,15 @@
       let window_height_scaler = 0.5;
       let window_width_scaler = 1;
 
+      let global_offset_y = 0.05;
+
       init();
       animate();
 
       function init() {
         camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerWidth, 0.1, 200 );
 				// camera.position.set(1, 1, 3.5);
-				camera.position.set(0, 0, 0.7);
+				camera.position.set(-0.2, 0.1, 0.25);
 
         scene = new THREE.Scene();
         scene.background = new THREE.Color(0xffffff);
@@ -86,64 +88,250 @@
         const ambientLight = new THREE.AmbientLight(0xffffff);
         scene.add(ambientLight);
 
-				const axesHelper = new THREE.AxesHelper( 5 );
+				// const axesHelper = new THREE.AxesHelper( 5 );
 				// scene.add(axesHelper);
 
+        // gltf_loader.load(
+        //   "gltf/daemon_optimized.gltf",
+        //   function(gltf) {
+        //     gltf.scene.scale.set(0.01, 0.01, 0.01);
+        //     scene.add(gltf.scene);
+
+        //     let mesh = gltf.scene.children[0];
+        //     const text = document.createElement("a");
+        //     text.className = "label";
+        //     text.textContent = "LABEL";
+        //     text.href = "http://google.com";
+        //     text.addEventListener("pointerdown", () => {location.href = "https://google.com"});
+        //     const label = new CSS2DObject(text);
+        //     label.position.set(10000, 0, 0);
+        //     label.center.set(0, 0);
+
+        //     const text2 = document.createElement("a");
+        //     text2.className = "label";
+        //     text2.textContent = "LABEL2";
+        //     text2.href = "http://youtube.com";
+        //     text2.addEventListener("pointerdown", () => {location.href = "http://youtube.com"});
+        //     const label2 = new CSS2DObject(text2);
+        //     label2.position.set(0, 1, 0);
+        //     label2.center.set(0, 0);
+
+        //     mesh.add(label);
+        //     mesh.add(label2);
+        //   });
+
+        // // BACK
         gltf_loader.load(
-          "gltf/daemon_optimized.gltf",
+          "gltf/optimized/back/baseboard.gltf",
           function(gltf) {
-            gltf.scene.scale.set(0.01, 0.01, 0.01);
+            // gltf.scene.scale.set(0.005, 0.005, 0.005);
+            gltf.scene.position.set(-0.001, 0.0237+global_offset_y, -0.161);
+            gltf.scene.rotation.set(-Math.PI/2, Math.PI, 0);
+            // gltf.scene.children[0].material.color.setHex(0x00ff00);
             scene.add(gltf.scene);
+        });
+        gltf_loader.load(
+          "gltf/optimized/back/case_bot.gltf",
+          function(gltf) {
+            // gltf.scene.scale.set(0.005, 0.005, 0.005);
+            gltf.scene.position.set(0, 0+global_offset_y, -0.16);
+            gltf.scene.rotation.set(-Math.PI/2, Math.PI, 0);
+            // gltf.scene.children[0].material.color.setHex(0x00ff00);
+            scene.add(gltf.scene);
+        });
+        gltf_loader.load(
+          "gltf/optimized/back/case_top.gltf",
+          function(gltf) {
+            // gltf.scene.scale.set(0.005, 0.005, 0.005);
+            gltf.scene.position.set(0, 0+global_offset_y, -0.16);
+            gltf.scene.rotation.set(-Math.PI/2, Math.PI, 0);
+            // gltf.scene.children[0].material.color.setHex(0x00ff00);
+            scene.add(gltf.scene);
+        });
+        gltf_loader.load(
+          "gltf/optimized/back/pd_case_bot.gltf",
+          function(gltf) {
+            // gltf.scene.scale.set(0.005, 0.005, 0.005);
+            gltf.scene.position.set(-0.063, -0.13+global_offset_y, -0.134);
+            gltf.scene.rotation.set(0, -Math.PI/2, Math.PI/2);
+            // gltf.scene.children[0].material.color.setHex(0x00ff00);
+            scene.add(gltf.scene);
+        });
+        gltf_loader.load(
+          "gltf/optimized/back/pd_case_top.gltf",
+          function(gltf) {
+            // gltf.scene.scale.set(0.005, 0.005, 0.005);
+            gltf.scene.position.set(-0.063, -0.13+global_offset_y, -0.134);
+            gltf.scene.rotation.set(0, -Math.PI/2, Math.PI/2);
+            // gltf.scene.children[0].material.color.setHex(0x00ff00);
+            scene.add(gltf.scene);
+        });
+        gltf_loader.load(
+          "gltf/optimized/back/steval_board.gltf",
+          function(gltf) {
+            // gltf.scene.scale.set(0.005, 0.005, 0.005);
+            gltf.scene.position.set(-0.063, -0.13+global_offset_y, -0.134);
+            gltf.scene.rotation.set(0, -Math.PI/2, Math.PI/2);
+            // gltf.scene.children[0].material.color.setHex(0x00ff00);
+            scene.add(gltf.scene);
+        });
 
-            let mesh = gltf.scene.children[0];
-            const text = document.createElement("a");
-            text.className = "label";
-            text.textContent = "LABEL";
-            text.href = "http://google.com";
-            text.addEventListener("pointerdown", () => {location.href = "https://google.com"});
-            const label = new CSS2DObject(text);
-            label.position.set(10000, 0, 0);
-            label.center.set(0, 0);
+        // FRONT
+        gltf_loader.load(
+          "gltf/optimized/front/case.gltf",
+          function(gltf) {
+            // gltf.scene.scale.set(0.005, 0.005, 0.005);
+            gltf.scene.position.set(0, 0+global_offset_y, 0);
+            gltf.scene.rotation.set(-Math.PI/2, 0, 0);
+            // gltf.scene.children[0].material.color.setHex(0x00ff00);
+            scene.add(gltf.scene);
+        });
+        gltf_loader.load(
+          "gltf/optimized/front/clamps.gltf",
+          function(gltf) {
+            // gltf.scene.scale.set(0.005, 0.005, 0.005);
+            gltf.scene.position.set(0, 0+global_offset_y, 0);
+            gltf.scene.rotation.set(-Math.PI/2, 0, 0);
+            // gltf.scene.children[0].material.color.setHex(0x00ff00);
+            scene.add(gltf.scene);
+        });
+        gltf_loader.load(
+          "gltf/optimized/front/display_holder.gltf",
+          function(gltf) {
+            // gltf.scene.scale.set(0.005, 0.005, 0.005);
+            gltf.scene.position.set(0, 0+global_offset_y, 0);
+            gltf.scene.rotation.set(-Math.PI/2, 0, 0);
+            // gltf.scene.children[0].material.color.setHex(0x00ff00);
+            scene.add(gltf.scene);
+        });
+        gltf_loader.load(
+          "gltf/optimized/front/display_optics.gltf",
+          function(gltf) {
+            // gltf.scene.scale.set(0.005, 0.005, 0.005);
+            gltf.scene.position.set(-0.032, 0+global_offset_y, -0.0248);
+            gltf.scene.rotation.set(0, 0, 0);
+            // gltf.scene.children[0].material.color.setHex(0x00ff00);
+            scene.add(gltf.scene);
+        });
+        gltf_loader.load(
+          "gltf/optimized/front/face_cushion.gltf",
+          function(gltf) {
+            // gltf.scene.scale.set(0.005, 0.005, 0.005);
+            gltf.scene.position.set(0, 0+global_offset_y, 0);
+            gltf.scene.rotation.set(-Math.PI/2, 0, 0);
+            // gltf.scene.children[0].material.color.setHex(0x00ff00);
+            scene.add(gltf.scene);
+        });
+        gltf_loader.load(
+          "gltf/optimized/front/face_cushion_holder.gltf",
+          function(gltf) {
+            // gltf.scene.scale.set(0.005, 0.005, 0.005);
+            gltf.scene.position.set(0, 0+global_offset_y, 0);
+            gltf.scene.rotation.set(-Math.PI/2, 0, 0);
+            // gltf.scene.children[0].material.color.setHex(0x00ff00);
+            scene.add(gltf.scene);
+        });
+        gltf_loader.load(
+          "gltf/optimized/front/mainconstruct.gltf",
+          function(gltf) {
+            // gltf.scene.scale.set(0.005, 0.005, 0.005);
+            gltf.scene.position.set(0, 0+global_offset_y, 0);
+            gltf.scene.rotation.set(-Math.PI/2, 0, 0);
+            // gltf.scene.children[0].material.color.setHex(0x00ff00);
+            scene.add(gltf.scene);
+        });
+        gltf_loader.load(
+          "gltf/optimized/front/rods.gltf",
+          function(gltf) {
+            // gltf.scene.scale.set(0.005, 0.005, 0.005);
+            gltf.scene.position.set(0, 0+global_offset_y, 0);
+            gltf.scene.rotation.set(-Math.PI/2, 0, 0);
+            // gltf.scene.children[0].material.color.setHex(0x00ff00);
+            scene.add(gltf.scene);
+        });
+        gltf_loader.load(
+          "gltf/optimized/front/screws.gltf",
+          function(gltf) {
+            // gltf.scene.scale.set(0.005, 0.005, 0.005);
+            gltf.scene.position.set(0, 0+global_offset_y, 0);
+            gltf.scene.rotation.set(-Math.PI/2, 0, 0);
+            // gltf.scene.children[0].material.color.setHex(0x00ff00);
+            scene.add(gltf.scene);
+        });
+        gltf_loader.load(
+          "gltf/optimized/front/sir170.gltf",
+          function(gltf) {
+            // gltf.scene.scale.set(0.005, 0.005, 0.005);
+            gltf.scene.position.set(0, 0+global_offset_y, 0);
+            gltf.scene.rotation.set(-Math.PI/2, 0, 0);
+            // gltf.scene.children[0].material.color.setHex(0x00ff00);
+            scene.add(gltf.scene);
+        });
+        gltf_loader.load(
+          "gltf/optimized/front/usb2_addon.gltf",
+          function(gltf) {
+            // gltf.scene.scale.set(0.005, 0.005, 0.005);
+            gltf.scene.position.set(-0.068, 0.029+global_offset_y, 0.057);
+            gltf.scene.rotation.set(0, Math.PI/2, 0);
+            // gltf.scene.children[0].material.color.setHex(0x00ff00);
+            scene.add(gltf.scene);
+        });
+        gltf_loader.load(
+          "gltf/optimized/front/usb2_injector.gltf",
+          function(gltf) {
+            // gltf.scene.scale.set(0.005, 0.005, 0.005);
+            gltf.scene.position.set(0.07, -0.012+global_offset_y, 0.0069);
+            gltf.scene.rotation.set(-Math.PI/2, -Math.PI/2, 0);
+            // gltf.scene.children[0].material.color.setHex(0x00ff00);
+            scene.add(gltf.scene);
+        });
+        gltf_loader.load(
+          "gltf/optimized/front/xr50.gltf",
+          function(gltf) {
+            // gltf.scene.scale.set(0.005, 0.005, 0.005);
+            gltf.scene.position.set(0, 0+global_offset_y, 0);
+            gltf.scene.rotation.set(-Math.PI/2, 0, 0);
+            // gltf.scene.children[0].material.color.setHex(0x00ff00);
+            scene.add(gltf.scene);
+        });
 
-            const text2 = document.createElement("a");
-            text2.className = "label";
-            text2.textContent = "LABEL2";
-            text2.href = "http://youtube.com";
-            text2.addEventListener("pointerdown", () => {location.href = "http://youtube.com"});
-            const label2 = new CSS2DObject(text2);
-            label2.position.set(0, 1, 0);
-            label2.center.set(0, 0);
-
-            mesh.add(label);
-            mesh.add(label2);
-          });
-
-        // gltf_loader.load(
-        //   "gltf/usb2_injector_optimized.gltf",
-        //   function(gltf) {
-        //     gltf.scene.scale.set(0.005, 0.005, 0.005);
-        //     gltf.scene.position.set(0.1, 0.1, 0.1);
-        //     gltf.scene.rotation.set(Math.PI/2, 0, Math.PI/2);
-        //     scene.add(gltf.scene);
-        // });
-
-        // gltf_loader.load(
-        //   "gltf/usb2_addon_optimized.gltf",
-        //   function(gltf) {
-        //     gltf.scene.scale.set(0.005, 0.005, 0.005);
-        //     gltf.scene.position.set(0.1, 0.1, 0.1);
-        //     gltf.scene.rotation.set(Math.PI/2, 0, Math.PI/2);
-        //     scene.add(gltf.scene);
-        // });
-
-        // gltf_loader.load(
-        //   "gltf/slimevr_optimized.gltf",
-        //   function(gltf) {
-        //     gltf.scene.scale.set(0.005, 0.005, 0.005);
-        //     gltf.scene.position.set(0.1, 0.1, 0.1);
-        //     gltf.scene.rotation.set(Math.PI/2, 0, Math.PI/2);
-        //     scene.add(gltf.scene);
-        // });
+        // MISC
+        gltf_loader.load(
+          "gltf/optimized/misc/headband.gltf",
+          function(gltf) {
+            // gltf.scene.scale.set(0.005, 0.005, 0.005);
+            gltf.scene.position.set(0, 0+global_offset_y, 0);
+            gltf.scene.rotation.set(-Math.PI/2, 0, 0);
+            // gltf.scene.children[0].material.color.setHex(0x00ff00);
+            scene.add(gltf.scene);
+        });
+        gltf_loader.load(
+          "gltf/optimized/misc/powerbank.gltf",
+          function(gltf) {
+            // gltf.scene.scale.set(0.005, 0.005, 0.005);
+            gltf.scene.position.set(0, 0+global_offset_y, 0);
+            gltf.scene.rotation.set(-Math.PI/2, 0, 0);
+            // gltf.scene.children[0].material.color.setHex(0x00ff00);
+            scene.add(gltf.scene);
+        });
+        gltf_loader.load(
+          "gltf/optimized/misc/powercable.gltf",
+          function(gltf) {
+            // gltf.scene.scale.set(0.005, 0.005, 0.005);
+            gltf.scene.position.set(0, 0+global_offset_y, 0);
+            gltf.scene.rotation.set(-Math.PI/2, 0, 0);
+            // gltf.scene.children[0].material.color.setHex(0x00ff00);
+            scene.add(gltf.scene);
+        });
+        gltf_loader.load(
+          "gltf/optimized/misc/typec_cable.gltf",
+          function(gltf) {
+            // gltf.scene.scale.set(0.005, 0.005, 0.005);
+            gltf.scene.position.set(0, 0+global_offset_y, 0);
+            gltf.scene.rotation.set(-Math.PI/2, 0, 0);
+            // gltf.scene.children[0].material.color.setHex(0x00ff00);
+            scene.add(gltf.scene);
+        });
 
         const scaled_window_height = window.innerHeight * window_height_scaler;
         const scaled_window_width = window.innerWidth * window_width_scaler;
@@ -173,12 +361,12 @@
 
         controls = new OrbitControls( camera, labelRenderer.domElement );
 				controls.minDistance = 0.1;
-				controls.maxDistance = 10000;
-        controls.enablePan = false;
+				controls.maxDistance = 1;
+        controls.enablePan = true;
         controls.enableDamping = true;
         controls.dampingFactor = 0.2;
         controls.enableRotate = true;
-        controls.autoRotate = true;
+        // controls.autoRotate = true;
         controls.autoRotateSpeed = 1;
         controls.enableZoom = true;
 
