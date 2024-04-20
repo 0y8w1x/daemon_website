@@ -103,32 +103,32 @@
         scene = new THREE.Scene();
         scene.background = new THREE.Color(0xffffff);
 
-        const pointLight = new THREE.PointLight(0xffffff, 2.5);
+        const pointLight = new THREE.PointLight(0xffffff, 3);
         pointLight.layers.enableAll();
         pointLight.position.set(1, 0, 0);
         scene.add(pointLight);
 
-        const pointLight2 = new THREE.PointLight(0xffffff, 2.5);
+        const pointLight2 = new THREE.PointLight(0xffffff, 3);
         pointLight2.layers.enableAll();
         pointLight2.position.set(-1, 0, 0);
         scene.add(pointLight2);
 
-        const pointLight3 = new THREE.PointLight(0xffffff, 2.5);
+        const pointLight3 = new THREE.PointLight(0xffffff, 3);
         pointLight3.layers.enableAll();
         pointLight3.position.set(0, 1, 0);
         scene.add(pointLight3);
 
-        const pointLight4 = new THREE.PointLight(0xffffff, 2.5);
+        const pointLight4 = new THREE.PointLight(0xffffff, 3);
         pointLight4.layers.enableAll();
         pointLight4.position.set(0, -1, 0);
         scene.add(pointLight4);
 
-        const pointLight5 = new THREE.PointLight(0xffffff, 2.5);
+        const pointLight5 = new THREE.PointLight(0xffffff, 3);
         pointLight5.layers.enableAll();
         pointLight5.position.set(0, 0, 1);
         scene.add(pointLight5);
 
-        const pointLight6 = new THREE.PointLight(0xffffff, 2.5);
+        const pointLight6 = new THREE.PointLight(0xffffff, 3);
         pointLight6.layers.enableAll();
         pointLight6.position.set(0, 0, -1);
         scene.add(pointLight6);
@@ -283,7 +283,7 @@
 
         // FRONT
         gltf_loader.load(
-          "gltf/unoptimized/front/case.gltf",
+          "gltf/optimized/front/case.gltf",
           function(gltf) {
             gltf.scene.traverse(function( object ) {
               object.layers.set(1);
