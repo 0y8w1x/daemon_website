@@ -93,8 +93,8 @@
         "Misc": function () {
           camera.layers.toggle(5);
         },
-        "Show All": function () {
-          camera.layers.enableAll();
+        "Hide All": function () {
+          camera.layers.disableAll();
         },
       };
 
@@ -657,7 +657,7 @@
         gui.add(layers,"Other Modules");
         gui.add(layers,"Cables");
         gui.add(layers,"Misc");
-        gui.add(layers,"Show All");
+        gui.add(layers,"Hide All");
         gui.close();
         // gui.open();
       }
