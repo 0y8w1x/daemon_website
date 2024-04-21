@@ -11,7 +11,7 @@
         font-family: monospace;
       }
       .container {
-        margin: -8px;
+        padding-bottom: 1000px;
       }
 			.label {
 				color: #ffffff;
@@ -591,14 +591,13 @@
         labelRenderer = new CSS2DRenderer();
 				labelRenderer.setSize(window_width, window_width);
 				labelRenderer.domElement.style.position = "absolute";
-        // labelRenderer.domElement.style.outline = "1px solid black";
         document.getElementById("render_container").appendChild(labelRenderer.domElement);
 
         renderer = new THREE.WebGLRenderer();
 				renderer.setPixelRatio(window.devicePixelRatio);
 				renderer.setSize(window_width, window_width);
 				renderer.domElement.style.position = "absolute";
-        // renderer.domElement.zIndes = 100;
+        renderer.domElement.style.outline = "1px solid black";
         document.getElementById("render_container").appendChild(renderer.domElement);
 
         controls = new OrbitControls(camera, renderer.domElement);
