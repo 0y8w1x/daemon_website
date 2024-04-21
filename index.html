@@ -156,7 +156,6 @@
             text.className = "label";
             text.textContent = "Carrier";
             text.href = "https://github.com/0y8w1x/daemon_carrier_board";
-            text.addEventListener("pointerdown", () => {location.href = "https://github.com/0y8w1x/daemon_carrier_board"});
             const label = new CSS2DObject(text);
             label.layers.set(2);
             label.position.set(8000, 5000, 8000);
@@ -167,7 +166,6 @@
             text2.className = "label";
             text2.textContent = "Computer";
             text2.href = "https://www.nvidia.com/en-us/autonomous-machines/embedded-systems/jetson-orin/";
-            text2.addEventListener("pointerdown", () => {location.href = "https://www.nvidia.com/en-us/autonomous-machines/embedded-systems/jetson-orin/"});
             const label2 = new CSS2DObject(text2);
             label2.layers.set(3);
             label2.position.set(8000, 5000, 6000);
@@ -227,7 +225,6 @@
             text.className = "label";
             text.textContent = "3D Printed";
             text.href = "https://github.com/0y8w1x/daemon_mechanical";
-            text.addEventListener("pointerdown", () => {location.href = "https://github.com/0y8w1x/daemon_mechanical"});
             const label = new CSS2DObject(text);
             label.layers.set(1);
             label.position.set(8000, 0, 0);
@@ -275,7 +272,6 @@
             text.className = "label";
             text.textContent = "USB PD";
             text.href = "https://www.st.com/en/evaluation-tools/steval-isc005v1.html";
-            text.addEventListener("pointerdown", () => {location.href = "https://www.st.com/en/evaluation-tools/steval-isc005v1.html"});
             const label = new CSS2DObject(text);
             label.layers.set(3);
             label.position.set(10000, 5000, 5000);
@@ -338,7 +334,6 @@
             text.className = "label";
             text.textContent = "Optics";
             text.href = "https://www.seeya-tech.com/en/products/products2_11.html";
-            text.addEventListener("pointerdown", () => {location.href = "https://www.seeya-tech.com/en/products/products2_11.html"});
             const label = new CSS2DObject(text);
             label.layers.set(3);
             label.position.set(4000, 5000, 0);
@@ -349,7 +344,6 @@
             text2.className = "label";
             text2.textContent = "Display";
             text2.href = "https://www.seeya-tech.com/en/html/products/3976.html";
-            text2.addEventListener("pointerdown", () => {location.href = "https://www.seeya-tech.com/en/html/products/3976.html"});
             const label2 = new CSS2DObject(text2);
             label2.layers.set(3);
             label2.position.set(15000, 5000, 2000);
@@ -433,7 +427,6 @@
             text.className = "label";
             text.textContent = "Hands";
             text.href = "https://www.ultraleap.com/product/stereo-ir-170/";
-            text.addEventListener("pointerdown", () => {location.href = "https://www.ultraleap.com/product/stereo-ir-170/"});
             const label = new CSS2DObject(text);
             label.layers.set(3);
             label.position.set(5000, 0, 1000);
@@ -457,7 +450,6 @@
             text.className = "label";
             text.textContent = "Hub";
             text.href = "https://github.com/0y8w1x/daemon_usb2_hub";
-            text.addEventListener("pointerdown", () => {location.href = "https://github.com/0y8w1x/daemon_usb2_hub"});
             const label = new CSS2DObject(text);
             label.layers.set(2);
             label.position.set(4000, 8000, 6000);
@@ -481,7 +473,6 @@
             text.className = "label";
             text.textContent = "Injector";
             text.href = "https://github.com/0y8w1x/daemon_usb2_injector";
-            text.addEventListener("pointerdown", () => {location.href = "https://github.com/0y8w1x/daemon_usb2_injector"});
             const label = new CSS2DObject(text);
             label.layers.set(2);
             label.position.set(10000, 2000, 10000);
@@ -505,7 +496,6 @@
             text.className = "label";
             text.textContent = "6DoF";
             text.href = "https://www.xvisiotech.com/product/seersense-xr50/";
-            text.addEventListener("pointerdown", () => {location.href = "https://www.xvisiotech.com/product/seersense-xr50/"});
             const label = new CSS2DObject(text);
             label.layers.set(3);
             label.position.set(5000, 0, 2000);
@@ -543,7 +533,6 @@
             text.className = "label";
             text.textContent = "Powerbank";
             text.href = "https://www.anker.com/eu-de/products/a1289";
-            text.addEventListener("pointerdown", () => {location.href = "https://www.anker.com/eu-de/products/a1289"});
             const label = new CSS2DObject(text);
             label.layers.set(3);
             label.position.set(10000, 5000, 5000);
@@ -579,7 +568,6 @@
             text.className = "label";
             text.textContent = "Type-C";
             text.href = "https://www.amazon.com/dp/B0BNX7MS6N?ref=ppx_pop_mob_ap_share";
-            text.addEventListener("pointerdown", () => {location.href = "https://www.amazon.com/dp/B0BNX7MS6N?ref=ppx_pop_mob_ap_share"});
             const label = new CSS2DObject(text);
             label.layers.set(4);
             label.position.set(12000, 5000, 5000);
@@ -601,19 +589,22 @@
           window_height = scaled_window_height;
         }
 
-        renderer = new THREE.WebGLRenderer();
-				renderer.setPixelRatio(window.devicePixelRatio);
-				renderer.setSize(window_width, window_width);
-				renderer.domElement.style.position = "absolute";
-        document.getElementById("render_container").appendChild(renderer.domElement);
-
+        // this order is important, labelRenderer has
+        // to be instanciated before the object renderer
         labelRenderer = new CSS2DRenderer();
 				labelRenderer.setSize(window_width, window_width);
 				labelRenderer.domElement.style.position = "absolute";
         // labelRenderer.domElement.style.outline = "1px solid black";
         document.getElementById("render_container").appendChild(labelRenderer.domElement);
 
-        controls = new OrbitControls(camera, labelRenderer.domElement);
+        renderer = new THREE.WebGLRenderer();
+				renderer.setPixelRatio(window.devicePixelRatio);
+				renderer.setSize(window_width, window_width);
+				renderer.domElement.style.position = "absolute";
+        // renderer.domElement.zIndes = 100;
+        document.getElementById("render_container").appendChild(renderer.domElement);
+
+        controls = new OrbitControls(camera, renderer.domElement);
 				controls.minDistance = 0.1;
 				controls.maxDistance = 1;
         controls.enablePan = true;
